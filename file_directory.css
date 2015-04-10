@@ -1,0 +1,68 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: aliceblue;
+}
+
+section.explore {
+    min-height: 100%;
+    padding: 1em;
+    width: 40%;
+    background-color: #bdd1ce;
+    border-right: 1px solid gray;
+    box-sizing: border-box;
+    float: left;
+}
+
+section.document {
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 1em;
+}
+
+ul#context-menu {
+    position: absolute;
+    list-style: none;
+
+    background-color: #fffaeb;
+    color: #5a5a5e;
+    padding: 0.25em 0.25em;
+    border: 1px solid #abd0d1;
+
+    display: none;
+}
+
+ul#context-menu > li:hover {
+    background-color: #bd988d;
+    cursor: pointer;
+    color: #ffffff;
+    transition: all 500ms ease;
+}
+
+ul#context-menu.active {
+    display: block;
+}
+
+ul#root-content {
+    font: 500 1em "Times";
+    text-transform: capitalize;
+}
+
+li.document {
+    color: #dc4a6a;
+    list-style: none;
+}
+
+li.folder {
+    color: #122cbd;
+    list-style: none;
+}
+
+li.folder:hover {
+    color: #8e93bd;
+    cursor: pointer;
+    transition: all 500ms ease;
+}
