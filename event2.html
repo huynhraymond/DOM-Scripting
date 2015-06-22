@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            height: 200px;
+            width: 200px;
+
+            box-sizing: border-box;
+            background-color: aquamarine;
+
+            float: left;
+        }
+
+        div.currentTarget:hover {
+            background-color: #2cffda;
+            transition: background-color 500ms ease;
+        }
+
+        div.prevTarget {
+            background-color: cadetblue;
+        }
+        
+    </style>
+</head>
+<body>
+
+</body>
+<script>
+
+    for ( var i = 1; i <= 12; i++ ) {
+        var div = document.createElement('div');
+        div.setAttribute('class', 'child');
+
+        document.body.appendChild(div);
+
+        div.addEventListener('mouseenter', function(event) {
+           if (document.querySelector('prevTarget'))
+        });
+
+    }
+</script>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        document.addEventListener('readystatechange', function() {
+           if ( document.readyState === 'interactive' ) {
+               console.log(document.querySelector('div').textContent);
+               var script = document.createElement('script');
+               script.src = 'async.js';
+               document.body.appendChild(script);
+           }
+        });
+    </script>
+</head>
+<body>
+    <div>Make sure that div run before script is running</div>
+</body>
+</html>

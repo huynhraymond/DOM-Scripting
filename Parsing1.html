@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        document.addEventListener('readystatechange', function() {
+            if ( document.readyState === 'complete' ) {
+                var div = document.querySelector('div');
+                console.log(getChildElement(div));
+            }
+        });
+
+        function getChildElement(node) {
+            return Array.prototype.filter.call(node.childNodes, function(childNode) {
+                return childNode.nodeType === 1;
+            });
+        }
+
+    </script>
+</head>
+<body>
+<div>
+    <span>Cuxi</span>
+</div>
+</body>
+</html>

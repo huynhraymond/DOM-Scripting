@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Capturing and Bubbling</title>
+    <style>
+
+        div {
+            padding: 1em;
+            border: 1px solid gray;
+        }
+
+        p.chat {
+            padding: 0.5em;
+            background-color: #eee;
+            margin: 0.25em;
+        }
+
+        p.chat:nth-child(2n) {
+            text-align: right;
+        }
+
+    </style>
+    <link rel="stylesheet" href="base.css"/>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var input = document.querySelector('input');
+            var chat_container = document.querySelector('#chat-container');
+
+            input.addEventListener('keypress', function (event) {
+
+
+                console.log(String.fromCharCode(event.charCode));
+
+
+                if (/[<>;]/.test(String.fromCharCode(event.charCode)))
+                    event.preventDefault();
+
+
+                if (event.keyCode === 13) {
+                    createElement('p', chat_container, 'chat', this.value);
+                }
+            });
+
+            window.addEventListener('contextmenu', function (event) {
+                event.preventDefault();
+                console.log('context menu fired!');
+            });
+
+            document.querySelector('a').addEventListener('click', function (event) {
+                event.preventDefault();
+                console.log(this.href);
+            });
+
+
+
+            function createElement(elementType, parent, className, innerHTML, custom) {
+                var element = document.createElement(elementType);
+                if (parent) parent.appendChild(element);
+                if (className) element.className = className;
+                if (innerHTML) element.innerHTML = innerHTML;
+
+                if (typeof custom !== 'undefined') {
+                    for (var prop in custom) {
+                        element.setAttribute(prop, custom[prop]);
+                    }
+                }
+
+                return element;
+            }
+
+        });
+
+    </script>
+</head>
+<body>
+<a href="http://www.google.com" target="_blank">Google</a>
+<input type="text"/>
+<div id="chat-container">
+
+</div>
+</body>
+</html>

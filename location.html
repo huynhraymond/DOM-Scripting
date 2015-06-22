@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div.dummy {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <a href="#raymond">Go to Raymond div</a>
+    <div class="dummy"></div>
+    <div id="raymond">Raymond</div>
+
+    <form>
+        <input type="text" name="user" />
+        <input type="email" name="email" />
+        <input type="submit" value="Send Data to Server" />
+    </form>
+</body>
+<script>
+    function printProps(obj) {
+        for (var prop in obj) {
+            console.log(prop + ': ' + obj[prop]);
+        }
+    }
+
+    //printProps(location);
+    //printProps(navigator);
+    //printProps(navigator.battery);
+
+    console.log(navigator.mineTypes);
+
+</script>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script>
+        console.log(document.readyState);
+
+        var start = new Date();
+
+        document.addEventListener('readystatechange', function() {
+            if ( document.readyState === 'interactive') {
+                var div = document.querySelector('div');
+                console.log(div);
+            }
+            if ( document.readyState === 'complete' ) {
+                console.log('Finished loading async: ' + ((new Date()) - start) + ' ms');
+            }
+
+            console.log(document.readyState);
+        });
+    </script>
+</head>
+<body>
+    <div>This is the div element</div>
+    <img src="http://smashious.com/wp-content/uploads/2012/02/canvas-of-html5.png"/>
+
+</body>
+</html>

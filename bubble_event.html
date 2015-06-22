@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div {
+            background-color: rgba(255, 0, 0, 0.27);
+            padding: 2em;
+            border: 1px solid crimson;
+        }
+    </style>
+    <script>
+        function eventPhase(phase) {
+            switch(phase) {
+                case 1: return 'capturing phase';
+                case 2: return 'at target phase';
+                case 3: return 'bubbling phase';
+            }
+        }
+
+        function handler(event) {
+            console.log("handler: " + event.currentTarget.id + ' in the ' + eventPhase(event.eventPhase));
+
+            if (event.currentTarget.id === 'parent') {
+                event.stopPropagation();
+
+                // This will stop handler1 being fire
+                //event.stopImmediatePropagation();
+            }
+
+        }
+
+        function handler1(event) {
+            console.log("handler #1: " + event.currentTarget.id + ' in the ' + eventPhase(event.eventPhase));
+
+            if (event.currentTarget.id === 'grandparent') {
+                event.stopPropagation();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#grandparent').addEventListener('click', handler, true);
+            document.querySelector('#grandparent').addEventListener('click', handler1, false);
+            document.querySelector('#parent').addEventListener('click', handler, true);
+            document.querySelector('#parent').addEventListener('click', handler1, false);
+            document.querySelector('#child').addEventListener('click', handler, true);
+            document.querySelector('#child').addEventListener('click', handler1, false);
+
+
+        });
+    </script>
+</head>
+<body>
+    <div id="grandparent">
+        <div id="parent">
+            <div id="child"></div>
+        </div>
+    </div>
+</body>
+</html>

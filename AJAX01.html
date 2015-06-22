@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+        div.links {
+            margin: 20px;
+            text-decoration: none;
+        }
+
+        div.left {
+            width: 30vw;
+            height: 100vh;
+
+            float: left;
+        }
+
+        div.left > ul > li:hover {
+            color: crimson;
+            cursor: pointer;
+            transition: all 500ms ease;
+        }
+
+        div.right {
+            width: 50vw;
+            height: 100vh;
+
+            float: left;
+        }
+    </style>
+    <script>
+
+        var xhrObj;
+
+        function createElement(elementType, parent, innerHtml, custom) {
+            var element = document.createElement(elementType);
+
+            if ( parent ) { parent.appendChild(element); }
+
+            if ( innerHtml ) { element.innerHTML = innerHtml; }
+
+            if ( typeof custom !== 'undefined' ) {
+                for ( var prop in custom ) {
+                    element.setAttribute( prop, custom[prop] );
+                }
+            }
+
+            return element;
+        }
+
+        function displaySearchResult(obj) {
+
+            var div = document.querySelector('div.left');
+
+            // First remove all children - if any
+            while ( div.hasChildNodes() ) { div.removeChild(div.firstChild); }
+
+            var ul = createElement('ul', div);
+
+            var index = 0;
+            for ( var prop in obj ) {
+                var li = createElement('li', ul, obj[prop]['full_name']);
+
+                // set class to index in list
+                li.className = index.toString();
+                index++;
+            }
+        }
+
+        function displayOwnerInfo(event) {
+            event.preventDefault();
+
+            // Display owner info on the right hand panel
+            var div = document.querySelector('div.right');
+
+            // Whether div.right has any children - remove them all and recreate to display new info
+            while ( div.hasChildNodes() ) { div.removeChild( div.firstChild ); }
+
+            // Obtain index of clicked item - li item position
+            //console.log(event.target.className);
+            var pos = parseInt(event.target.className);
+
+            var obj = xhrObj.items[pos];
+
+            var tag = createElement('a', div);
+            tag.setAttribute('href', obj['html_url']);
+            tag.innerHTML = 'URL: ' + obj['html_url'];
+
+            tag = createElement('div', div);
+            tag.innerHTML = 'Login Name: ' + obj['owner']['login'];
+
+            tag = createElement('img', div);
+            tag.setAttribute('src', obj['owner']['avatar_url']);
+
+            tag = createElement('div', div);
+            tag.innerHTML = 'ID: ' + obj['owner']['id'];
+
+        }
+
+        // Function making Ajax call
+        function makeAjaxCall(url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+
+            xhr.addEventListener('readystatechange', function() {
+                if (xhr.readyState === 4 ) {
+                    callback(xhr);
+                }
+            });
+
+            xhr.send();
+        }
+        /*
+        function updateLinks( links ) {
+            function parseLinkHeader( header ) {
+                var re = /<[^>]+>;\s+rel="[^"]+"/gmi;
+
+                var matches = links.match(re);
+
+                return matches.reduce(function(obj, m) {
+                    var re = /<([^>]+)>;\s+rel="([^"]+)"/gmi;
+                    var info = re.exec(m);
+                    obj[info[2]] = info[1];
+
+                    return obj;
+                }, {});
+            }
+
+            return parseLinkHeader( links );
+        }  */
+
+        function updateLinks(linkheader) {
+            function parseLinkHeader(header) {
+                var re = /<[^>]+>;\s+rel="[^"]+"/gmi;
+                var matches = linkheader.match(re);
+                return matches.reduce(function (obj, m) {
+                    var re = /<([^>]+)>;\s+rel="([^"]+)"/gmi;
+                    var info = re.exec(m);
+                    obj[info[2]] = info[1];
+                    return obj;
+                }, {});
+            }
+            console.log(parseLinkHeader(linkheader));
+        }
+
+        function callbackAjaxFunc(xhr) {
+
+            xhrObj = JSON.parse(xhr.responseText);
+            displaySearchResult(xhrObj.items);
+            //console.log(xhrObj.items);
+
+            var anchors = document.querySelectorAll('div.links > a')
+
+            var links = updateLinks( xhr.getResponseHeader('Link') );
+
+            for ( var prop in links ) {
+
+                switch (prop) {
+                    case 'first':
+                        anchors[0].href = links[prop];
+                        break;
+                    case 'prev':
+                        anchors[1].href = links[prop];
+                        break;
+                    case 'next':
+                        anchors[2].href = links[prop];
+                        break;
+                    case 'last':
+                        anchors[3].href = links[prop];
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('input[name="query"]').addEventListener('change', function() {
+
+                var url = "https://api.github.com/search/repositories?q=" + this.value;
+
+                document.querySelector('h3.query').innerHTML = 'url: ' + url;
+
+                /*
+                makeAjaxCall(url, function(xhr) {
+                    var data = JSON.parse(xhr.responseText);
+                    displaySearchResult(data.items);
+                    console.log(data.items);
+                });  */
+
+                makeAjaxCall(url, callbackAjaxFunc);
+            });
+
+            // Register event listener on github result - owner's link info
+            document.querySelector('div.left').addEventListener('click', function(e) { displayOwnerInfo(e); });
+
+        });
+
+    </script>
+</head>
+<body>
+    <div>
+        <input type="text" name="query" placeholder="Search Github"/>
+        <h3 class="query">Query for: </h3>
+        <div class="links">
+            <a href="#">First Page</a>
+            <a href="#">Prev Page</a>
+            <a href="#">Next Page</a>
+            <a href="#">Last Page</a>
+        </div>
+    </div>
+
+    <div class="left"></div>
+    <div class="right"></div>
+</body>
+</html>

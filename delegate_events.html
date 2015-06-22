@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            var ul = createElement('ul', document.body);
+
+            ul.addEventListener('click', function (event) {
+                var fid = event.target.getAttribute('data-fid');
+                console.log(event.target.textContent, event.target.dataset.fid, fid);
+
+            });
+
+            for (var i = 0; i < 4; i++) {
+
+                var li = createElement( 'li', ul, 'li element ' + (i + 1), { 'data-fid': uuid() } );
+            }
+        });
+
+        function uuid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+                return v.toString(16);
+            });
+        };
+
+        function createElement(elementType, parent, innerHtml, custom) {
+            var element = document.createElement(elementType);
+
+            if ( parent ) { parent.appendChild(element); }
+
+            if ( innerHtml ) { element.innerHTML = innerHtml; }
+
+            if ( typeof custom !== 'undefined' ) {
+                for ( var prop in custom ) {
+                    element.setAttribute( prop, custom[prop] );
+                }
+            }
+
+            return element;
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

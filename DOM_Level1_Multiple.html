@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var btn = document.querySelector('button');
+
+            RegisterMultiple(btn, 'click', function(event) {
+                console.log('Operating handler from DOMContentLoaded registration...');
+                console.log(event);
+            });
+
+            RegisterMultiple(btn, 'click', function(event) {
+                console.log('Operating handler from the window load registration...');
+                console.log(event);
+            });
+        });
+
+        function RegisterMultiple(element, eventType, handler) {
+            element.registration = element.registration || [];
+            element.registration.push(handler);
+
+            console.log(element.registration);
+
+            element['on' + eventType] = function(event) {
+                console.log('clicked');
+                element.registration.forEach( function(fn) {
+                   fn.call(element, event);
+                });
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <button>click</button>
+</body>
+</html>

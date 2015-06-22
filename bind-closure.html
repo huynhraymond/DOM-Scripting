@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div {
+            padding: 3em;
+            background-color: rgba(255, 0, 0, 0.3);
+            color: white;
+            font-weight: 200;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var children = document.querySelector('div#parent').children;
+            //children = Array.prototype.slice.call(children);
+
+            for ( var i = 0; i < children.length; i++ ) {
+                console.log(children[i]);
+                children[i].addEventListener('click', function(i) {
+                    //console.log('children: ', i);
+                    console.log(children[i].innerHTML);
+                }.bind(children[i], i));
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="grandparent">
+        <div id="parent">
+            <div id="child1">This is div child 1</div>
+            <div id="child2">This is div child 2</div>
+            <div id="child3">This is div child 3</div>
+            <div id="child4">This is div child 4</div>
+            <div id="child5">This is div child 5</div>
+        </div>
+    </div>
+</body>
+</html>

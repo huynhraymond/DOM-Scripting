@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var btn = document.querySelector('button');
+
+            /* DOM Level 1 does NOT support multiple event handlers
+             btn.onclick = function(event) {
+             console.log("DOMContentLoaded registration...");
+             console.log(event);
+             } */
+
+            // DOM Level 2 - support multiple event handlers
+            btn.addEventListener('click', function(event) {
+                console.log("DOMContentLoaded registration...");
+                console.log(event);
+            });
+        });
+
+        window.addEventListener('load', function() {
+            var btn = document.querySelector('button');
+
+            /* DOM Level 1
+             btn.onclick = function(event) {
+             console.log("Operating handler registration...");
+             console.log(event);
+             } */
+
+            // DOM Level 2
+            btn.addEventListener('click', function(event) {
+                console.log("Operating handler registration...");
+                console.log(event);
+            });
+        });
+    </script>
+</head>
+<body>
+<button>click</button>
+</body>
+</html>

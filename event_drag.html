@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        html, body {
+
+            margin: 0;
+            height: 100vh;
+            background-color: cadetblue;
+        }
+        div.rectangle {
+            position: absolute;
+            background-color: antiquewhite;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            function mouseMoveHandler(event) {
+                var div = mouseMoveHandler.div;
+                var cur = [event.clientX, event.clientY];
+
+                var left = (mouseMoveHandler.initPos[0] < cur[0]) ? mouseMoveHandler.initPos[0] : cur[0];
+                var top = (mouseMoveHandler.initPos[1] < cur[1]) ? mouseMoveHandler.initPos[1] : cur[1];
+
+                div.style.left = left + 'px';
+                div.style.top = top + 'px';
+
+                div.style.width = Math.abs(mouseMoveHandler.initPos[0] - cur[0]) + 'px';
+                div.style.height = Math.abs(mouseMoveHandler.initPos[1] - cur[1]) + 'px';
+
+            }
+
+            document.body.addEventListener('mousedown', function(event) {
+
+                var div = document.createElement('div');
+                div.className = 'rectangle';
+                document.body.appendChild(div);
+
+                mouseMoveHandler.initPos = [event.clientX, event.clientY];
+                mouseMoveHandler.div = div;
+
+                document.body.addEventListener('mousemove', mouseMoveHandler);
+
+            });
+
+            document.body.addEventListener('mouseup', function(event) {
+                if ( mouseMoveHandler.div.width === 0 ) {
+                    document.body.removeChild(mouseMoveHandler.div);
+                }
+                document.body.removeEventListener('mousemove', mouseMoveHandler);
+            })
+
+        });
+
+
+    </script>
+</head>
+<body>
+
+</body>
+
+</html>
